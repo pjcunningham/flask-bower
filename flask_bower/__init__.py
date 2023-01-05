@@ -4,8 +4,10 @@ import os
 from flask import abort, json, send_file, Blueprint, current_app, url_for
 import sys
 
-from flask._compat import reraise
-
+def reraise(tp, value, tb=None):
+    if value.__traceback__ is not tb:
+        raise value.with_traceback(tb)
+    raise value
 
 def validate_parameter(param):
     if '..' in param or param.startswith('/'):
